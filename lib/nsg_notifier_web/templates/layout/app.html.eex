@@ -46,7 +46,7 @@
         <!-- Page Content -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-sm navbar-dark" style="background: #305478;">
+            <nav class="navbar navbar-expand-sm navbar-dark sticky-top" style="background: #305478;">
                 <div class="container-fluid">
                     <a id="sidebarCollapse" class="navbar-link"><i class="fa fa-bars" style="color: #fff;"></i></a>
                     <p class="navbar-brand mx-auto">Обработчик событий</p>
@@ -67,6 +67,5 @@
     </div>
 
     <script src="<%= static_path(@conn, "/js/app.js ") %>"></script>
-
   </body>
 </html>
