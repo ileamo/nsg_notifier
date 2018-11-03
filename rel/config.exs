@@ -30,14 +30,13 @@ environment :dev do
   # dev mode.
   set(dev_mode: true)
   set(include_erts: false)
-  set(cookie: :"7Y,6ZE|7Nx)jt$Xl<2jJbDdBg(d}I^g_*]oK/>!h1&FGM{F6QY`H{:$<p9V]6D;G")
+  set(cookie: :":]00==8G&EfhSZ_TgYrrTju3G]FbilTV@{,:}@$?vK<Q]U>,EQymhu6Lm>{3V`r/")
 end
 
 environment :prod do
-  set(include_erts: "/home/igor/nsg/LoRa/releases/erlang-releases/arm/opt/erlang")
-  # set(include_erts: true)
+  set(include_erts: "/home/imo/usr/proj/erlang")
   set(include_src: false)
-  set(cookie: :"^AeHb9LTSC&NT1rV$*[~,S%Q]Jh[&$`R7O&]LZ>rsve%odMQjpL,Ky;tx.X4O0({")
+  set(cookie: :"V8AN=dS1QULmd<vK|nhGQ9AE!0!28z3V0piod)ul]Uy!E|OKbQt|(p&Kvi>QyY7r")
 end
 
 # You may define one or more releases in this file.
