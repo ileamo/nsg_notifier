@@ -1,19 +1,21 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>Lorem ipsum dolor..</p>
-      <p>Ut enim ad..</p>
+    <div class="col-sm-5">
+      <h5>Опасность</h5>
+      <li class="list-group-item list-group-item-danger"> danger message </li>
     </div>
     <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p>Lorem ipsum dolor..</p>
-      <p>Ut enim ad..</p>
+      <h5>Предупреждения</h5>
+      <li class="list-group-item list-group-item-warning"> warning message </li>
+
     </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>
-      <p>Lorem ipsum dolor..</p>
-      <p>Ut enim ad..</p>
+    <div class="col-sm-3" style="font-size: 80%;">
+      <h5>Журнал событий</h5>
+      <ul class="list-group">
+        <%= for {alert, message} <- NsgNotifier.EventLogAgent.get() do %>
+          <li class="list-group-item list-group-item-<%= alert %>"><%= message %></li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
