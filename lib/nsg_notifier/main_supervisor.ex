@@ -7,9 +7,10 @@ defmodule NsgNotifier.MainSupervisor do
   end
 
   @impl true
-  def init(_arg) do
+  def init(_) do
     children = [
-      NsgNotifier.Conf
+      NsgNotifier.Conf,
+      NsgNotifier.EventLogAgent
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
