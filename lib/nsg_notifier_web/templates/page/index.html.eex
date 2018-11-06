@@ -11,10 +11,14 @@
     </div>
     <div class="col-sm-3" style="font-size: 80%;">
       <h5>Журнал событий</h5>
-      <ul class="list-group">
+      <ul class="list-group" id="event-log">
+
+
         <%= for {alert, message} <- NsgNotifier.EventLogAgent.get() do %>
           <li class="list-group-item list-group-item-<%= alert %>"><%= message %></li>
         <% end %>
+
+
       </ul>
     </div>
   </div>
