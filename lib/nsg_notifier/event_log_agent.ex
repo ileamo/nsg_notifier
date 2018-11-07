@@ -16,6 +16,12 @@ defmodule NsgNotifier.EventLogAgent do
     )
   end
 
+  def put(alert, deveui, message) do
+    message = "#{NsgNotifier.Aux.get_local_time()}: #{deveui}: #{message}"
+    put({alert, message})
+    NsgNotifierWeb.Endpoint.broadcast!("room:lobby", "new_msg", %{alert: alert, body: message})
+  end
+
   def get() do
     Agent.get(__MODULE__, fn state -> state end)
   end

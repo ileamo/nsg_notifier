@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-4">
       <h5>Опасность</h5>
       <li class="list-group-item list-group-item-danger"> danger message </li>
     </div>
@@ -9,7 +9,7 @@
       <li class="list-group-item list-group-item-warning"> warning message </li>
 
     </div>
-    <div class="col-sm-3" style="font-size: 80%;">
+    <div class="col-sm-4" style="font-size: 80%;">
       <h5>Журнал событий</h5>
       <ul class="list-group" id="event-log">
 
