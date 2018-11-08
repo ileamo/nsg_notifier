@@ -9,6 +9,7 @@ defmodule NsgNotifierWeb.Api.EventController do
     IO.inspect(args)
 
     {alert, message} = Handler.handle(args)
+
     EventLogAgent.put(alert, args["deveui"], message)
 
     send_resp(conn, 200, "")

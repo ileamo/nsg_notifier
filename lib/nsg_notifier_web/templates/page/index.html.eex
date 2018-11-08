@@ -1,25 +1,37 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4">
-      <h5>Опасность</h5>
-      <li class="list-group-item list-group-item-danger"> danger message </li>
-    </div>
-    <div class="col-sm-4">
-      <h5>Предупреждения</h5>
-      <li class="list-group-item list-group-item-warning"> warning message </li>
 
+    <div class="col-sm-4">
+      <h5>
+        <%= link "Опасность", to: page_path(@conn, :index) %>
+      </h5>
+      <div class="list-group list-group-root well" id="danger-list">
+        <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
+          <a href="#" class="list-group-item list-group-item-danger"><%= id %></a>
+            <div class="list-group">
+              <%= for mes <- mes_list do %>
+                <a href="#" class="list-group-item"><%= mes %></a>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
     </div>
+
+    <div class="col-sm-4">
+      <h5>
+        <%= link "Предупреждения", to: page_path(@conn, :index) %>
+      </h5>
+      <li class="list-group-item list-group-item-warning"> warning message </li>
+    </div>
+
     <div class="col-sm-4" style="font-size: 80%;">
       <h5>Журнал событий</h5>
       <ul class="list-group" id="event-log">
-
-
         <%= for {alert, message} <- NsgNotifier.EventLogAgent.get() do %>
           <li class="list-group-item list-group-item-<%= alert %>"><%= message %></li>
         <% end %>
-
-
       </ul>
     </div>
+
   </div>
 </div>

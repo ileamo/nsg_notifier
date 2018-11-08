@@ -11,6 +11,8 @@ defmodule NsgNotifier.MainSupervisor do
     children = [
       NsgNotifier.Conf,
       NsgNotifier.EventLogAgent,
+      Supervisor.child_spec({NsgNotifier.AlertAgent, :danger}, id: :danger),
+      Supervisor.child_spec({NsgNotifier.AlertAgent, :warning}, id: :warning),
       NsgNotifier.SmsSender
     ]
 

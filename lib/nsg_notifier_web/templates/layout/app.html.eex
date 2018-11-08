@@ -22,7 +22,7 @@
 
             <ul class="list-unstyled components">
               <li>
-                <a href="#">Монитор</a>
+                <%= link "Монитор", to: page_path(@conn, :index) %>
               </li>
               <li>
                   <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Конфигурация</a>
