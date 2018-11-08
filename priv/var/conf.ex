@@ -1,4 +1,6 @@
 defmodule NsgNotifier.Handler do
+  import NsgNotifier.UI
+
   def handle(event) do
     case event do
       %{"event" => "joined"} ->
@@ -8,24 +10,24 @@ defmodule NsgNotifier.Handler do
       # SI-11
       #
       %{"type" => "1"} ->
-        {:success, "Спасибо что живой"}
+        {:success, "В работе"}
 
       %{"type" => "2", "door" => door} ->
         mes = "Вскрыта дверь #{door}"
-        NsgNotifier.SmsSender.send(event, ["+79031882422", "+79030199081"], mes)
+        send_sms(event, ["+79031882422", "+79030199081"], mes)
         {:danger, mes}
 
       #
       # Gas detector
       #
-      %{"alarm" => 2} ->
+      %{"alarm" => "2"} ->
         {:danger, "Утечка газа"}
 
-      %{"button" => 1} ->
+      %{"button" => "1"} ->
         {:info, "Тест"}
 
-      %{"alarm" => 0} ->
-        {:success, "Живой"}
+      %{"alarm" => "0"} ->
+        {:success, "  В работе"}
 
       #
       # other
