@@ -12,13 +12,22 @@ defmodule NsgNotifier.AlertAgent do
         mes = "#{NsgNotifier.Aux.get_local_time()}: #{mes}"
 
         with {{id, mes_list}, item_list} <- List.keytake(state, id, 0) do
+          broadcast(name)
           [{id, mes_list ++ [mes]} | item_list]
         else
-          _ when new -> [{id, [mes]} | state]
-          _ -> state
+          _ when new ->
+            broadcast(name)
+            [{id, [mes]} | state]
+
+          _ ->
+            state
         end
       end
     )
+  end
+
+  defp broadcast(name) do
+    NsgNotifierWeb.Endpoint.broadcast!("room:lobby", "new_alert", %{alert: name})
   end
 
   def get(name) do

@@ -19,15 +19,17 @@ defmodule NsgNotifier.EventLogAgent do
   def put(alert, deveui, mes) do
     message = "#{NsgNotifier.Aux.get_local_time()}: #{deveui}: #{mes}"
     put({alert, message})
-    NsgNotifierWeb.Endpoint.broadcast!("room:lobby", "new_msg", %{alert: alert, body: message})
+    NsgNotifierWeb.Endpoint.broadcast!("room:lobby", "new_log", %{alert: alert, body: message})
 
-    case alert do
-      a when a in [:danger, :warning] ->
-        NsgNotifier.AlertAgent.put(alert, {deveui, mes}, true)
+    if deveui do
+      case alert do
+        a when a in [:danger, :warning] ->
+          NsgNotifier.AlertAgent.put(alert, {deveui, mes}, true)
 
-      _ ->
-        NsgNotifier.AlertAgent.put(:danger, {deveui, mes})
-        NsgNotifier.AlertAgent.put(:warning, {deveui, mes})
+        _ ->
+          NsgNotifier.AlertAgent.put(:danger, {deveui, mes})
+          NsgNotifier.AlertAgent.put(:warning, {deveui, mes})
+      end
     end
   end
 

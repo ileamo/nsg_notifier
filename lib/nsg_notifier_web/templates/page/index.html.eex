@@ -2,10 +2,10 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <h5>
+      <h3 id="danger-header" class="text-center">
         <%= link "Опасность", to: page_path(@conn, :index) %>
-      </h5>
-      <div class="list-group list-group-root well" id="danger-list">
+      </h3>
+      <div class="list-group list-group-root well">
         <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
           <li class="list-group-item list-group-item-danger" style="font-size: 120%;"><%= id %>
             <%= link img_tag("", class: "fa fa-close"),
@@ -24,12 +24,19 @@
     </div>
 
     <div class="col-sm-4">
-      <h5>
+      <h4 id="warning-header" class="text-center">
         <%= link "Предупреждения", to: page_path(@conn, :index) %>
-      </h5>
-      <div class="list-group list-group-root well" id="danger-list">
+      </h4>
+
+      <div class="list-group list-group-root well">
         <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
-          <a href="#" class="list-group-item list-group-item-danger"><%= id %></a>
+          <li class="list-group-item list-group-item-warning" style="font-size: 120%;"><%= id %>
+            <%= link img_tag("", class: "fa fa-close"),
+              to: page_path(@conn, :delete, %{id: id, alert: :warning}),
+              data: [confirm: "Удалить предупреждение?"],
+              class: "btn btn-success float-right" %>
+          </li>
+
             <div class="list-group">
               <%= for mes <- mes_list do %>
                 <a href="#" class="list-group-item"><%= mes %></a>
@@ -37,10 +44,12 @@
             </div>
         <% end %>
       </div>
+
+
     </div>
 
     <div class="col-sm-4" style="font-size: 80%;">
-      <h5>Журнал событий</h5>
+      <h5 class="text-center">Журнал событий</h5>
       <ul class="list-group" id="event-log">
         <%= for {alert, message} <- NsgNotifier.EventLogAgent.get() do %>
           <li class="list-group-item list-group-item-<%= alert %>"><%= message %></li>

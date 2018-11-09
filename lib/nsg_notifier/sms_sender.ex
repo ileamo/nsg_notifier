@@ -24,9 +24,9 @@ defmodule NsgNotifier.SmsSender do
 
     with {res, 0} <-
            System.cmd("smsshLTE", ["-p", "port.m1", "--phone", phone, "--sms", smstext]),
-         true <- Regex.match?(~r/OK/, res) do
+         true <- Regex.match?(~r/\s*OK\s*/, res) do
       IO.puts("SMS: #{phone}: #{smstext}")
-      EventLogAgent.put(:success, deveui, "Послано СМС на номер #{phone}")
+      EventLogAgent.put(:info, deveui, "Послано СМС на номер #{phone}")
     else
       false ->
         IO.puts("SMS ERROR, rep")
@@ -41,5 +41,6 @@ defmodule NsgNotifier.SmsSender do
 
   def send(params, phone_list, text) do
     GenServer.cast(__MODULE__, {:send, phone_list, params["deveui"], text})
+    text
   end
 end

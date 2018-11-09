@@ -58,13 +58,24 @@ socket.connect()
 let channel = socket.channel("room:lobby", {})
 let messagesContainer = document.querySelector("#event-log")
 
-channel.on("new_msg", payload => {
+channel.on("new_log", payload => {
   let messageItem = document.createElement("li")
   messageItem.className = `list-group-item list-group-item-${payload.alert}`
   messageItem.innerText = `${payload.body}`
   messagesContainer.insertBefore(messageItem, messagesContainer.childNodes[0])
-
 })
+
+let blink = {}
+channel.on("new_alert", payload => {
+  if (!blink[payload.alert]) {
+    let alertHeader = document.querySelector(`#${payload.alert}-header`)
+    setInterval(function(){
+      alertHeader.style.opacity ^= 1 ;
+    },200);
+    blink[payload.alert] = true
+  }
+})
+
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })

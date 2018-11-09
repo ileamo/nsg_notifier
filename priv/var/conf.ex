@@ -13,15 +13,13 @@ defmodule NsgNotifier.Handler do
         {:success, "В работе"}
 
       %{"type" => "2", "door" => door} ->
-        mes = "Вскрыта дверь #{door}"
-        send_sms(event, ["+79031882422", "+79030199081"], mes)
-        {:danger, mes}
+        {:danger, send_sms(event, ["+79031882422", "+79030199081"], "Вскрыта дверь #{door}")}
 
       #
       # Gas detector
       #
       %{"alarm" => "2"} ->
-        {:danger, "Утечка газа"}
+        {:danger, send_sms(event, ["+79031882422", "+79030199081"], "Утечка газа")}
 
       %{"button" => "1"} ->
         {:info, "Тест"}
