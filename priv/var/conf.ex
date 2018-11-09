@@ -19,7 +19,10 @@ defmodule NsgNotifier.Handler do
       # Gas detector
       #
       %{"alarm" => "2"} ->
-        {:danger, send_sms(event, ["+79031882422", "+79030199081"], "Утечка газа")}
+        send_sms(event, ["+79031882422", "+79030199081"], "Gas detected")
+        email(event, ["ileamo@yandex.ru", "imo59y@yandex.ru"], "Произошла утечка газа")
+
+        {:danger, "Утечка газа"}
 
       %{"button" => "1"} ->
         {:info, "Тест"}
