@@ -1,3 +1,4 @@
 defmodule NsgNotifier.UI do
-  defdelegate(send_sms(event, phone_list, message), to: NsgNotifier.SmsSender, as: :send)
+  defdelegate(sms(event, phone_list, message), to: NsgNotifier.SmsSender, as: :send)
+  defdelegate(email(event, address_list, message), to: NsgNotifier.EmailSender, as: :email)
 end
