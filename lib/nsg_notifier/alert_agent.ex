@@ -24,4 +24,13 @@ defmodule NsgNotifier.AlertAgent do
   def get(name) do
     Agent.get(name, fn state -> state end)
   end
+
+  def delete(name, id) do
+    Agent.update(
+      name,
+      fn state ->
+        List.keydelete(state, id, 0)
+      end
+    )
+  end
 end

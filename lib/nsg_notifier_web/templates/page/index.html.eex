@@ -7,7 +7,13 @@
       </h5>
       <div class="list-group list-group-root well" id="danger-list">
         <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
-          <a href="#" class="list-group-item list-group-item-danger"><%= id %></a>
+          <li class="list-group-item list-group-item-danger" style="font-size: 120%;"><%= id %>
+            <%= link img_tag("", class: "fa fa-close"),
+              to: page_path(@conn, :delete, %{id: id, alert: :danger}),
+              data: [confirm: "Удалить предупреждение?"],
+              class: "btn btn-success float-right" %>
+          </li>
+
             <div class="list-group">
               <%= for mes <- mes_list do %>
                 <a href="#" class="list-group-item"><%= mes %></a>
@@ -21,7 +27,16 @@
       <h5>
         <%= link "Предупреждения", to: page_path(@conn, :index) %>
       </h5>
-      <li class="list-group-item list-group-item-warning"> warning message </li>
+      <div class="list-group list-group-root well" id="danger-list">
+        <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
+          <a href="#" class="list-group-item list-group-item-danger"><%= id %></a>
+            <div class="list-group">
+              <%= for mes <- mes_list do %>
+                <a href="#" class="list-group-item"><%= mes %></a>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
     </div>
 
     <div class="col-sm-4" style="font-size: 80%;">

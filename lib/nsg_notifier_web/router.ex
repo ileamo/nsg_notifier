@@ -18,6 +18,7 @@ defmodule NsgNotifierWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/delete", PageController, :delete)
   end
 
   scope "/api", NsgNotifierWeb.Api, as: :api do
