@@ -2,10 +2,18 @@ defmodule NsgNotifierWeb.ConfigController do
   use NsgNotifierWeb, :controller
 
   def edit(conn, _) do
-    render(conn, "edit.html")
+    render(conn, "edit.html", %{conf_ex: NsgNotifier.Conf.get_conf_ex()})
   end
 
-  def update(conn, _) do
-    render(conn, "edit.html")
+  def update(conn, _args = %{"config" => %{"conf_ex" => conf_ex}}) do
+    case NsgNotifier.Conf.put_conf_ex(conf_ex) do
+      {:error, mes} ->
+        conn
+        |> put_flash(:error, "Ошибка в файле конфигурации: #{mes}")
+        |> render("edit.html", %{conf_ex: conf_ex})
+
+      _ ->
+        redirect(conn, to: page_path(conn, :index))
+    end
   end
 end

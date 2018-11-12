@@ -1,8 +1,8 @@
 defmodule NsgNotifier.Handler do
   import NsgNotifier.UI
 
-  def handle(event) do
-    case event do
+  def handle(args) do
+    case args do
       %{"event" => "joined"} ->
         {:info, "Датчик авторизовался"}
 
@@ -13,14 +13,14 @@ defmodule NsgNotifier.Handler do
         {:success, "В работе"}
 
       %{"type" => "2", "door" => door} ->
-        {:danger, sms(event, ["+79031882422", "+79030199081"], "Вскрыта дверь #{door}")}
+        {:danger, sms(args, ["+79031882422", "+79030199081"], "Вскрыта дверь #{door}")}
 
       #
       # Gas detector
       #
       %{"alarm" => "2"} ->
-        sms(event, ["+79031882422", "+79030199081"], "Gas detected")
-        email(event, ["ileamo@yandex.ru", "imo59y@yandex.ru"], "Произошла утечка газа")
+        sms(args, ["+79031882422", "+79030199081"], "Gas detected")
+        email(args, ["ileamo@yandex.ru", "imo59y@yandex.ru"], "Произошла утечка газа")
 
         {:danger, "Утечка газа"}
 
@@ -34,7 +34,7 @@ defmodule NsgNotifier.Handler do
       # other
       #
       _ ->
-        {:warning, "Unknown event #{inspect(event)}"}
+        {:warning, "Unknown event #{inspect(args)}"}
     end
   end
 end

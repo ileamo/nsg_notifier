@@ -1,8 +1,8 @@
 <%= form_for @conn, config_path(@conn, :update), [as: :config], fn f -> %>
 
     <div class="form-group">
-      <%= label f, :file %>
-        <%= textarea f, :file, class: "form-control", cols: "50", style: "font-family:monospace;height: 340px;max-width:960px" %>
+      <%= label f, "Уведомления:" %>
+        <%= textarea f, :conf_ex, id: "conf-ex", value: @conf_ex, class: "form-control", style: "font-family:monospace;max-width:960px", rows: "40"%>
     </div>
 
     <div class="form-group">

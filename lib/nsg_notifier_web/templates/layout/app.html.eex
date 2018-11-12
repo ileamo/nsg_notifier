@@ -28,13 +28,13 @@
                   <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Конфигурация</a>
                   <ul class="collapse list-unstyled" id="pageSubmenu">
                       <li>
-                          <a href="#">Page 1</a>
+                        <%= link "Уведомления", to: config_path(@conn, :edit) %>
                       </li>
                       <li>
-                          <a href="#">Page 2</a>
+                          <a href="#">Группы</a>
                       </li>
                       <li>
-                          <a href="#">Page 3</a>
+                          <a href="#">Пользователи</a>
                       </li>
                   </ul>
               </li>
