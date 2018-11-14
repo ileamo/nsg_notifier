@@ -8,7 +8,7 @@
       <div class="list-group list-group-root well">
         <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
           <li class="list-group-item list-group-item-danger" style="font-size: 120%;"><%= id %>
-            <%= link img_tag("", class: "fa fa-close"),
+            <%= link content_tag(:i, "", class: "fa fa-close"),
               to: page_path(@conn, :delete, %{id: id, alert: :danger}),
               data: [confirm: "Удалить предупреждение?"],
               class: "btn btn-success float-right" %>
@@ -31,7 +31,7 @@
       <div class="list-group list-group-root well">
         <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
           <li class="list-group-item list-group-item-warning" style="font-size: 120%;"><%= id %>
-            <%= link img_tag("", class: "fa fa-close"),
+            <%= link content_tag(:i, "", class: "fa fa-close"),
               to: page_path(@conn, :delete, %{id: id, alert: :warning}),
               data: [confirm: "Удалить предупреждение?"],
               class: "btn btn-success float-right" %>
