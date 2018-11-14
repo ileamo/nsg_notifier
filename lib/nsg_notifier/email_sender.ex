@@ -4,7 +4,8 @@ defmodule NsgNotifier.EmailSender do
   def email(%{"deveui" => id}, reciver_list, text) do
     :gen_smtp_client.send(
       {"ileamo@yandex.ru", reciver_list,
-       "Subject: Предупреждение\r\n" <>
+       "Content-Type: text/plain; charset=utf-8\r\n" <>
+         "Subject: Предупреждение\r\n" <>
          "From: NSG LoRa<noreply@nsg.net.ru>\r\n" <>
          "To: #{reciver_list |> Enum.join(",")}\r\n\r\n" <> "Датчик #{id}\r\n#{text}"},
       [
