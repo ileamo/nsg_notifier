@@ -34,8 +34,8 @@ environment :dev do
 end
 
 environment :prod do
-  # set(include_erts: "/home/imo/usr/proj/erlang")
-  set(include_erts: true)
+  set(include_erts: "/home/igor/nsg/LoRa/erlang")
+  # set(include_erts: true)
   set(include_src: false)
   set(cookie: :"V8AN=dS1QULmd<vK|nhGQ9AE!0!28z3V0piod)ul]Uy!E|OKbQt|(p&Kvi>QyY7r")
 end
