@@ -13,7 +13,8 @@ defmodule NsgNotifier.MainSupervisor do
       NsgNotifier.EventLogAgent,
       Supervisor.child_spec({NsgNotifier.AlertAgent, :danger}, id: :danger),
       Supervisor.child_spec({NsgNotifier.AlertAgent, :warning}, id: :warning),
-      NsgNotifier.SmsSender
+      NsgNotifier.SmsSender,
+      NsgNotifier.DeviceSupervisor
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
