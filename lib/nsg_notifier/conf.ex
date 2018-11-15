@@ -24,12 +24,16 @@ defmodule NsgNotifier.Conf do
   end
 
   def get(param) do
-    Dets.open_file(@table, file: @ets_file)
+    open_conf()
 
-    case Dets.lookup(@table, param) do
-      [{^param, value}] -> value
-      _ -> nil
-    end
+    res =
+      case Dets.lookup(@table, param) do
+        [{^param, value}] -> value
+        _ -> nil
+      end
+
+    close_conf()
+    res
   end
 
   def get_conf_ex() do

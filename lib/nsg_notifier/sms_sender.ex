@@ -26,7 +26,7 @@ defmodule NsgNotifier.SmsSender do
            System.cmd("smsshLTE", ["-p", "port.m1", "--phone", phone, "--sms", smstext]),
          true <- Regex.match?(~r/\s*OK\s*/, res) do
       IO.puts("SMS: #{phone}: #{smstext}")
-      EventLogAgent.put(:info, deveui, "Послано СМС на номер #{phone}")
+      EventLogAgent.put(:secondary, deveui, "Послано СМС на номер #{phone}")
     else
       false ->
         IO.puts("SMS ERROR, rep")

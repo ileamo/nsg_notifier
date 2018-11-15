@@ -19,7 +19,7 @@ defmodule NsgNotifier.EmailSender do
       fn
         {:ok, _res} ->
           EventLogAgent.put(
-            :info,
+            :secondary,
             id,
             "Отправлено письмо на email #{reciver_list |> Enum.join(", ")}"
           )
