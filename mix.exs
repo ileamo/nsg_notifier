@@ -39,7 +39,8 @@ defmodule NsgNotifier.Mixfile do
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 1.0"},
       {:distillery, "~> 2.0"},
-      {:gen_smtp, "~> 0.12.0"}
+      {:gen_smtp, "~> 0.12.0"},
+      {:httpoison, "~> 1.4.0"}
     ]
   end
 end
