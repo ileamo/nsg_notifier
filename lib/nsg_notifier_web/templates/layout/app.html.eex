@@ -31,7 +31,7 @@
                         <%= link "Уведомления", to: config_path(@conn, :edit) %>
                       </li>
                       <li>
-                          <a href="#">Группы</a>
+                        <%= link "Сервер lorawan", to: lwsconfig_path(@conn, :edit) %>
                       </li>
                       <li>
                           <a href="#">Пользователи</a>

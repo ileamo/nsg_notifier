@@ -21,6 +21,8 @@ defmodule NsgNotifierWeb.Router do
     get("/delete", PageController, :delete)
     get("/config", ConfigController, :edit)
     post("/config", ConfigController, :update)
+    get("/lwsconfig", LwsconfigController, :edit)
+    post("/lwsconfig", LwsconfigController, :update)
   end
 
   scope "/api", NsgNotifierWeb.Api, as: :api do

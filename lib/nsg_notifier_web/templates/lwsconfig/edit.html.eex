@@ -1,0 +1,24 @@
+<div style="max-width:950px">
+
+  <%= form_for @conn, lwsconfig_path(@conn, :update), [as: :lwsconfig], fn f -> %>
+    <div class="form-group">
+      <%= label f, "lorawan-server URL:" %>
+      <%= text_input f, :url, value: @lwsconfig["url"], class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, "Username:" %>
+      <%= text_input f, :username, value: @lwsconfig["username"], class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, "Password:" %>
+      <%= password_input f, :password, value: @lwsconfig["password"], class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= submit "Применить", class: "btn btn-primary" %>
+    </div>
+
+  <% end %>
+</div>

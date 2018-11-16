@@ -23,17 +23,23 @@ defmodule NsgNotifier.Conf do
     get_conf_ex() |> put_conf_ex()
   end
 
-  def get(param) do
+  def get(key) do
     open_conf()
 
     res =
-      case Dets.lookup(@table, param) do
-        [{^param, value}] -> value
+      case Dets.lookup(@table, key) do
+        [{^key, value}] -> value
         _ -> nil
       end
 
     close_conf()
     res
+  end
+
+  def put(key, value) do
+    open_conf()
+    Dets.insert(@table, {key, value})
+    close_conf()
   end
 
   def get_conf_ex() do
