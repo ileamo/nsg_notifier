@@ -2,12 +2,12 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <h3 id="danger-header" class="text-center">
+      <h4 id="danger-header" class="text-center">
         <%= link "Опасность", to: page_path(@conn, :index) %>
-      </h3>
+      </h4>
       <div class="list-group list-group-root well">
-        <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
-          <li class="list-group-item list-group-item-danger" style="font-size: 120%;"><%= id %>
+        <%= for {id, info, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
+          <li class="list-group-item list-group-item-danger"><%= id %>
             <%= link content_tag(:i, "", class: "fa fa-close"),
               to: page_path(@conn, :delete, %{id: id, alert: :danger}),
               data: [confirm: "Удалить предупреждение?"],
@@ -15,6 +15,7 @@
           </li>
 
             <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-secondary"><%= info %></a>
               <%= for mes <- mes_list do %>
                 <a href="#" class="list-group-item"><%= mes %></a>
               <% end %>
@@ -29,8 +30,8 @@
       </h4>
 
       <div class="list-group list-group-root well">
-        <%= for {id, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
-          <li class="list-group-item list-group-item-warning" style="font-size: 120%;"><%= id %>
+        <%= for {id, info, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
+          <li class="list-group-item list-group-item-warning"><%= id %>
             <%= link content_tag(:i, "", class: "fa fa-close"),
               to: page_path(@conn, :delete, %{id: id, alert: :warning}),
               data: [confirm: "Удалить предупреждение?"],
@@ -38,6 +39,7 @@
           </li>
 
             <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-secondary"><%= info %></a>
               <%= for mes <- mes_list do %>
                 <a href="#" class="list-group-item"><%= mes %></a>
               <% end %>

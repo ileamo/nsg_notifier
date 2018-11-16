@@ -1,9 +1,20 @@
 defmodule NsgNotifier.LwsApi do
-  def get(url) do
+  def get(path) do
+    lwsconfig = NsgNotifier.Conf.get(:lwsconfig)
+    url = lwsconfig["url"] <> path
+    username = lwsconfig["username"]
+    password = lwsconfig["password"]
+
     with {:ok, %HTTPoison.Response{body: _, headers: headers, status_code: 401}} <-
            HTTPoison.get(url),
          authorization <-
-           Httpdigest.create_header(headers, "admin", "admin", "GET", URI.parse(url).path || "/"),
+           Httpdigest.create_header(
+             headers,
+             username,
+             password,
+             "GET",
+             path
+           ),
          {:ok, %HTTPoison.Response{body: body, status_code: 200}} <-
            HTTPoison.get(url, authorization),
          {:ok, body} <- Poison.decode(body) do

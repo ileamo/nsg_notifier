@@ -1,5 +1,6 @@
 defmodule NsgNotifier.Device do
   use GenServer
+  alias NsgNotifier.LwsApi
 
   def start_link(id) do
     GenServer.start_link(__MODULE__, %{id: id, event_list: []}, name: {:global, id})
@@ -9,7 +10,13 @@ defmodule NsgNotifier.Device do
 
   @impl true
   def init(state) do
-    {:ok, state}
+    device =
+      case LwsApi.get("/api/devices/" <> state.id) do
+        {:ok, device} -> device
+        _ -> %{}
+      end
+
+    {:ok, state |> Map.put(:device, device)}
   end
 
   @impl true

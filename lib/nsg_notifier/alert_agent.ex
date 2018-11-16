@@ -1,5 +1,6 @@
 defmodule NsgNotifier.AlertAgent do
   use Agent
+  alias NsgNotifier.Device
 
   def start_link(name) do
     Agent.start_link(fn -> [] end, name: name)
@@ -11,13 +12,15 @@ defmodule NsgNotifier.AlertAgent do
       fn state ->
         mes = "#{NsgNotifier.Aux.get_local_time()}: #{mes}"
 
-        with {{id, mes_list}, item_list} <- List.keytake(state, id, 0) do
+        with {{id, info, mes_list}, item_list} <- List.keytake(state, id, 0) do
           broadcast(name)
-          [{id, mes_list ++ [mes]} | item_list]
+          [{id, info, mes_list ++ [mes]} | item_list]
         else
           _ when new ->
+            %{device: device} = Device.get(id)
+            info = device["desc"] || "Нет описания"
             broadcast(name)
-            [{id, [mes]} | state]
+            [{id, info, [mes]} | state]
 
           _ ->
             state
