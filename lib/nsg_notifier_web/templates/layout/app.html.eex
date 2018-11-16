@@ -39,7 +39,7 @@
                   </ul>
               </li>
               <li>
-                  <a href="#">Контакты</a>
+                <%= link "Тест", to: testapi_path(@conn, :edit) %>
               </li>
             </ul>
         </nav>

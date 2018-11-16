@@ -23,6 +23,8 @@ defmodule NsgNotifierWeb.Router do
     post("/config", ConfigController, :update)
     get("/lwsconfig", LwsconfigController, :edit)
     post("/lwsconfig", LwsconfigController, :update)
+    get("/testapi", TestapiController, :edit)
+    post("/testapi", TestapiController, :update)
   end
 
   scope "/api", NsgNotifierWeb.Api, as: :api do

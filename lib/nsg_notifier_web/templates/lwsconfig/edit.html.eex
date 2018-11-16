@@ -2,7 +2,7 @@
 
   <%= form_for @conn, lwsconfig_path(@conn, :update), [as: :lwsconfig], fn f -> %>
     <div class="form-group">
-      <%= label f, "lorawan-server URL:" %>
+      <%= label f, :lws do "lorawan-server URL:" end %>
       <%= text_input f, :url, value: @lwsconfig["url"], class: "form-control" %>
     </div>
 
