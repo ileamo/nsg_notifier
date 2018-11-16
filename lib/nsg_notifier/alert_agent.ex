@@ -1,6 +1,7 @@
 defmodule NsgNotifier.AlertAgent do
   use Agent
   alias NsgNotifier.Device
+  alias NsgNotifier.DeviceSupervisor
 
   def start_link(name) do
     Agent.start_link(fn -> [] end, name: name)
@@ -17,6 +18,7 @@ defmodule NsgNotifier.AlertAgent do
           [{id, info, mes_list ++ [mes]} | item_list]
         else
           _ when new ->
+            DeviceSupervisor.start_child(id)
             %{device: device} = Device.get(id)
             info = device["desc"] || "Нет описания"
             broadcast(name)

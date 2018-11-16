@@ -1,6 +1,6 @@
 defmodule NsgNotifier.LwsApi do
   def get(path) do
-    lwsconfig = NsgNotifier.Conf.get(:lwsconfig)
+    lwsconfig = NsgNotifier.Conf.get(:lwsconfig) || %{"url" => "http://localhost:8080"}
     url = lwsconfig["url"] <> path
     username = lwsconfig["username"]
     password = lwsconfig["password"]
