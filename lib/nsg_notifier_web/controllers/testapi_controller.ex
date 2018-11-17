@@ -3,7 +3,9 @@ defmodule NsgNotifierWeb.TestapiController do
   alias NsgNotifier.Conf
 
   def edit(conn, _) do
-    render(conn, "edit.html", %{testapi: Conf.get(:testapi)})
+    render(conn, "edit.html", %{
+      testapi: Conf.get(:testapi) || %{"event" => ~s/{"deveui":"0123456789ABCDEF"}/}
+    })
   end
 
   def update(conn, _args = %{"testapi" => testapi = %{"event" => event}}) do
