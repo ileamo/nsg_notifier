@@ -2,9 +2,9 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <h4 id="danger-header" class="text-center">
+      <h5 id="danger-header" class="text-center">
         <%= link "Опасность", to: page_path(@conn, :index) %>
-      </h4>
+      </h5>
       <div class="list-group list-group-root well">
         <%= for {id, info, mes_list} <- NsgNotifier.AlertAgent.get(:danger) do %>
           <li class="list-group-item list-group-item-danger"><%= id %>
@@ -22,12 +22,13 @@
             </div>
         <% end %>
       </div>
+      <hr/>
     </div>
 
     <div class="col-sm-4">
-      <h4 id="warning-header" class="text-center">
+      <h5 id="warning-header" class="text-center">
         <%= link "Предупреждения", to: page_path(@conn, :index) %>
-      </h4>
+      </h5>
 
       <div class="list-group list-group-root well">
         <%= for {id, info, mes_list} <- NsgNotifier.AlertAgent.get(:warning) do %>
@@ -46,6 +47,7 @@
             </div>
         <% end %>
       </div>
+      <hr/>
 
 
     </div>
@@ -57,6 +59,7 @@
           <li class="list-group-item list-group-item-<%= alert %>"><%= message %></li>
         <% end %>
       </ul>
+      <hr/>
     </div>
 
   </div>
