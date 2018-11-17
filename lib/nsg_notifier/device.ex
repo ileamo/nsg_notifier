@@ -4,7 +4,7 @@ defmodule NsgNotifier.Device do
   alias NsgNotifier.EventLogAgent
   alias NsgNotifier.Handler
 
-  @tmo 1 * 10 * 1000
+  @tmo 60 * 60 * 1000
 
   def start_link(id) do
     GenServer.start_link(__MODULE__, %{id: id, event_list: []}, name: {:global, id})
@@ -20,7 +20,8 @@ defmodule NsgNotifier.Device do
         _ -> %{}
       end
 
-    {:ok, state |> Map.put(:device, device), @tmo}
+    Process.send_after(self(), :idle_timeout, @tmo)
+    {:ok, state |> Map.put(:device, device)}
   end
 
   @impl true
@@ -31,28 +32,30 @@ defmodule NsgNotifier.Device do
         {l, [{:os.system_time(:second), event} | l]}
       end)
 
-    {:noreply, state, @tmo}
+    {:noreply, state}
   end
 
   @impl true
-  def handle_info(_msg, state) do
-    Task.start(fn ->
-      check_activity(state)
-    end)
+  def handle_info(msg, state) do
+    IO.inspect({msg, state})
+    check_activity(state)
+    Process.send_after(self(), :idle_timeout, @tmo)
 
-    {:noreply, state, @tmo}
+    {:noreply, state}
   end
 
   @impl true
   def handle_call({:get}, _from, state) do
-    {:reply, state, state, @tmo}
+    {:reply, state, state}
   end
 
   defp check_activity(%{id: id, event_list: [{timestamp, _} | _]}) do
-    {alert, message} =
-      Handler.handle(%{"deveui" => id, "inactivity" => :os.system_time(:second) - timestamp})
+    Task.start(fn ->
+      {alert, message} =
+        Handler.handle(%{"deveui" => id, :inactivity => :os.system_time(:second) - timestamp})
 
-    EventLogAgent.put(alert, id, message)
+      EventLogAgent.put(alert, id, message)
+    end)
   end
 
   defp check_activity(_) do
