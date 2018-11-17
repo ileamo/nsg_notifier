@@ -16,6 +16,9 @@ defmodule NsgNotifier.EventLogAgent do
     )
   end
 
+  def put(:ok, _, _) do
+  end
+
   def put(alert, deveui, mes) do
     message = "#{NsgNotifier.Aux.get_local_time()}: #{deveui}: #{mes}"
     put({alert, message})

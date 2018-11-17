@@ -1,6 +1,10 @@
 defmodule NsgNotifier.Device do
   use GenServer
   alias NsgNotifier.LwsApi
+  alias NsgNotifier.EventLogAgent
+  alias NsgNotifier.Handler
+
+  @tmo 1 * 10 * 1000
 
   def start_link(id) do
     GenServer.start_link(__MODULE__, %{id: id, event_list: []}, name: {:global, id})
@@ -16,7 +20,7 @@ defmodule NsgNotifier.Device do
         _ -> %{}
       end
 
-    {:ok, state |> Map.put(:device, device)}
+    {:ok, state |> Map.put(:device, device), @tmo}
   end
 
   @impl true
@@ -27,12 +31,32 @@ defmodule NsgNotifier.Device do
         {l, [{:os.system_time(:second), event} | l]}
       end)
 
-    {:noreply, state}
+    {:noreply, state, @tmo}
+  end
+
+  @impl true
+  def handle_info(_msg, state) do
+    Task.start(fn ->
+      check_activity(state)
+    end)
+
+    {:noreply, state, @tmo}
   end
 
   @impl true
   def handle_call({:get}, _from, state) do
-    {:reply, state, state}
+    {:reply, state, state, @tmo}
+  end
+
+  defp check_activity(%{id: id, event_list: [{timestamp, _} | _]}) do
+    {alert, message} =
+      Handler.handle(%{"deveui" => id, "inactivity" => :os.system_time(:second) - timestamp})
+
+    EventLogAgent.put(alert, id, message)
+  end
+
+  defp check_activity(_) do
+    IO.puts("No activity")
   end
 
   # client

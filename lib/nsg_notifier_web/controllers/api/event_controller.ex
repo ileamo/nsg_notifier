@@ -4,9 +4,11 @@ defmodule NsgNotifierWeb.Api.EventController do
   alias NsgNotifier.Handler
   alias NsgNotifier.EventLogAgent
   alias NsgNotifier.DeviceSupervisor
+  alias NsgNotifier.Device
 
   def index(conn, args = %{"deveui" => id}) do
     DeviceSupervisor.start_child(id)
+    Device.put_event(id, args)
     {alert, message} = Handler.handle(args)
     EventLogAgent.put(alert, id, message)
     send_resp(conn, 200, "")
