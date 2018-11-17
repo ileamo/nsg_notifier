@@ -84,8 +84,8 @@ defmodule NsgNotifier.Conf do
           # Добавьте здесь свои обработчки. Например:
           #
           # %{"alarm" => "2"} ->
-          #   sms(args, ["+79991234567", "+79990987654"], "Gas detected")
-          #   email(args, ["user@yandex.ru", "client@mail.ru"], "Произошла утечка газа")
+          #   sms(args, ["+799912345678", "+799909876543"], "Gas detected")
+          #   email(args, ["user@@yandex.ru", "client@@mail.ru"], "Произошла утечка газа")
           #   {:danger, "Утечка газа"}
           #
 
