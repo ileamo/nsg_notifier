@@ -2,6 +2,7 @@ defmodule NsgNotifier.AlertAgent do
   use Agent
   alias NsgNotifier.Device
   alias NsgNotifier.DeviceSupervisor
+  alias NsgNotifierWeb.Endpoint
 
   def start_link(name) do
     Agent.start_link(fn -> [] end, name: name)
@@ -32,7 +33,7 @@ defmodule NsgNotifier.AlertAgent do
   end
 
   defp broadcast(name) do
-    NsgNotifierWeb.Endpoint.broadcast!("room:lobby", "new_alert", %{alert: name})
+    Endpoint.broadcast!("room:lobby", "new_alert", %{alert: name})
   end
 
   def get(name) do

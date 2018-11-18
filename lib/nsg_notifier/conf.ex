@@ -77,8 +77,7 @@ defmodule NsgNotifier.Conf do
 
       def handle(args) do
         case args do
-          %{"event" => "joined"} ->
-            {:info, "Датчик авторизовался"}
+          %{"event" => "joined"} -> {:info, "Датчик авторизовался"}
 
           #
           # Добавьте здесь свои обработчки. Например:
@@ -89,8 +88,8 @@ defmodule NsgNotifier.Conf do
           #   {:danger, "Утечка газа"}
           #
 
-          _ ->
-            {:warning, "Unknown event \#{inspect(args)}"}
+          %{inactivity: _} -> {:ok, ""}
+          _ -> {:warning, "Unknown event \#{inspect(args)}"}
         end
       end
     end

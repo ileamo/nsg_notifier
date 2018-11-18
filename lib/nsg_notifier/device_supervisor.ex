@@ -1,6 +1,7 @@
 defmodule NsgNotifier.DeviceSupervisor do
   # Automatically defines child_spec/1
   use DynamicSupervisor
+  alias NsgNotifier.Device
 
   def start_link(arg) do
     IO.puts("DS start link")
@@ -16,7 +17,7 @@ defmodule NsgNotifier.DeviceSupervisor do
   def start_child(id) do
     DynamicSupervisor.start_child(
       __MODULE__,
-      Supervisor.child_spec({NsgNotifier.Device, id}, id: id)
+      Supervisor.child_spec({Device, id}, id: id)
     )
   end
 end
