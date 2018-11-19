@@ -1,11 +1,20 @@
 defmodule NsgNotifier.LwsApi do
   alias NsgNotifier.Conf
   @default_url "http://localhost:8080"
+
   def get(path) do
+    try do
+      get_aux(path)
+    rescue
+      _ -> {:error}
+    end
+  end
+
+  defp get_aux(path) do
     lwsconfig = Conf.get(:lwsconfig) || %{"url" => @default_url}
     url = (lwsconfig["url"] || @default_url) <> path
-    username = lwsconfig["username"]
-    password = lwsconfig["password"]
+    username = lwsconfig["username"] || "admin"
+    password = lwsconfig["password"] || "admin"
 
     with {:ok, %HTTPoison.Response{body: _, headers: headers, status_code: 401}} <-
            HTTPoison.get(url),
