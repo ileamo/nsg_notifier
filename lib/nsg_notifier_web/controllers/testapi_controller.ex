@@ -1,6 +1,7 @@
 defmodule NsgNotifierWeb.TestapiController do
   use NsgNotifierWeb, :controller
   alias NsgNotifier.Conf
+  alias NsgNotifierWeb.Endpoint
 
   def edit(conn, _) do
     render(conn, "edit.html", %{
@@ -15,7 +16,10 @@ defmodule NsgNotifierWeb.TestapiController do
     case Poison.decode(event) do
       {:ok, _} ->
         Conf.put(:testapi, testapi)
-        HTTPoison.post("http://localhost:4000/api", event, [{"Content-Type", "application/json"}])
+
+        HTTPoison.post("#{Endpoint.url()}/api", event, [
+          {"Content-Type", "application/json"}
+        ])
 
         redirect(conn, to: page_path(conn, :index))
 
