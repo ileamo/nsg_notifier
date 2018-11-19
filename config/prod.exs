@@ -17,6 +17,7 @@ config :nsg_notifier, NsgNotifierWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   # This is critical for ensuring web-sockets properly authorize.
   url: [host: "localhost", port: {:system, "PORT"}],
+  check_origin: false,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
