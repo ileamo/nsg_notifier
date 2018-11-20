@@ -15,22 +15,29 @@ defmodule NsgNotifier.Device do
 
   @impl true
   def init(state) do
+    Process.send_after(self(), :idle_timeout, @tmo)
+
+    {:ok, get_device(state)}
+  end
+
+  defp get_device(state) do
     device =
       case LwsApi.get("/api/devices/" <> state.id) do
         {:ok, device} ->
           device
 
         _ ->
-          Logger.warn("Can't get info from lorawan-server")
+          Logger.warn("Can't get device info(deveui=#{state.id})")
           %{}
       end
 
-    Process.send_after(self(), :idle_timeout, @tmo)
-    {:ok, state |> Map.put(:device, device)}
+    state |> Map.put(:device, device)
   end
 
   @impl true
   def handle_cast({:put_event, event}, state) do
+    state = (state.device["deveui"] && state) || get_device(state)
+
     {_, state} =
       state
       |> Map.get_and_update(:event_list, fn l ->
