@@ -4,7 +4,9 @@ defmodule NsgNotifierWeb.LwsconfigController do
   alias NsgNotifier.LwsApi
 
   def edit(conn, _) do
-    render(conn, "edit.html", %{lwsconfig: Conf.get(:lwsconfig)})
+    render(conn, "edit.html", %{
+      lwsconfig: Conf.get(:lwsconfig) || %{"url" => "http://127.0.0.1:8080"}
+    })
   end
 
   def update(conn, _args = %{"lwsconfig" => lwsconfig}) do
