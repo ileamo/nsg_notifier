@@ -1,5 +1,6 @@
 defmodule NsgNotifier.Device do
   use GenServer
+  require Logger
   alias NsgNotifier.LwsApi
   alias NsgNotifier.EventLogAgent
   alias NsgNotifier.Handler
@@ -16,8 +17,12 @@ defmodule NsgNotifier.Device do
   def init(state) do
     device =
       case LwsApi.get("/api/devices/" <> state.id) do
-        {:ok, device} -> device
-        _ -> %{}
+        {:ok, device} ->
+          device
+
+        _ ->
+          Logger.warn("Can't get info from lorawan-server")
+          %{}
       end
 
     Process.send_after(self(), :idle_timeout, @tmo)

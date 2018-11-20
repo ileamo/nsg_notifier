@@ -6,7 +6,7 @@ defmodule NsgNotifier.LwsApi do
     try do
       get_aux(path)
     rescue
-      _ -> {:error}
+      err -> {:error, "Runtime error: #{inspect(err)}"}
     end
   end
 
