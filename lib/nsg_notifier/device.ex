@@ -64,8 +64,7 @@ defmodule NsgNotifier.Device do
   end
 
   @impl true
-  def handle_info(msg, state) do
-    IO.inspect({msg, state})
+  def handle_info(_msg, state) do
     check_activity(state)
     Process.send_after(self(), :idle_timeout, @tmo)
 
@@ -86,8 +85,8 @@ defmodule NsgNotifier.Device do
     end)
   end
 
-  defp check_activity(_) do
-    IO.puts("No activity")
+  defp check_activity(device) do
+    Logger.error("check_activity: #{inspect(device)}")
   end
 
   # client
