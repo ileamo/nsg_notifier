@@ -20,4 +20,7 @@ defmodule NsgNotifier.DeviceSupervisor do
       Supervisor.child_spec({Device, id}, id: id)
     )
   end
+
+  def get_all_devices() do
+  end
 end

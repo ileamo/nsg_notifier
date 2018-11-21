@@ -8,7 +8,7 @@ defmodule NsgNotifier.Device do
   @tmo 60 * 60 * 1000
 
   def start_link(id) do
-    GenServer.start_link(__MODULE__, %{id: id, event_list: []}, name: {:global, id})
+    GenServer.start_link(__MODULE__, %{id: id}, name: {:global, id})
   end
 
   ## Callbacks
@@ -17,7 +17,7 @@ defmodule NsgNotifier.Device do
   def init(state) do
     Process.send_after(self(), :idle_timeout, @tmo)
 
-    {:ok, get_device(state)}
+    {:ok, state |> get_device() |> get_last_rx()}
   end
 
   defp get_device(state) do
@@ -32,6 +32,22 @@ defmodule NsgNotifier.Device do
       end
 
     state |> Map.put(:device, device)
+  end
+
+  defp get_last_rx(state) do
+    timestamp =
+      with node_id when node_id != nil <- state[:device]["node"],
+           {:ok, node} <- LwsApi.get("/api/nodes/" <> node_id),
+           last_rx when last_rx != nil <- node["last_rx"],
+           {:ok, dt, _} <- last_rx |> DateTime.from_iso8601() do
+        DateTime.to_unix(dt)
+      else
+        res ->
+          Logger.warn("Can't get device last_rx(deveui=#{state.id}) #{inspect(res)}")
+          :os.system_time(:second)
+      end
+
+    state |> Map.put(:event_list, [{timestamp, %{}}])
   end
 
   @impl true
