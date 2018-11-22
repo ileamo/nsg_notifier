@@ -1,5 +1,6 @@
 defmodule NsgNotifier.SmsSender do
   use GenServer
+  require Logger
   alias NsgNotifier.EventLogAgent
 
   def start_link(state) do
@@ -19,7 +20,7 @@ defmodule NsgNotifier.SmsSender do
     {:noreply, state}
   end
 
-  defp send_sms(phone, deveui, text) do
+  defp send_sms(phone, deveui, text, attempt \\ 3) do
     smstext = "#{deveui}: #{text}"
 
     with {res, 0} <-
@@ -29,11 +30,14 @@ defmodule NsgNotifier.SmsSender do
       EventLogAgent.put(:secondary, deveui, "Послано СМС на номер #{phone}")
     else
       false ->
-        IO.puts("SMS ERROR, rep")
-        send_sms(phone, deveui, text)
+        Logger.warn("Error sending SMS to #{phone}")
+
+        if attempt > 1 do
+          send_sms(phone, deveui, text, attempt - 1)
+        end
 
       _ ->
-        IO.puts("Bad exit code")
+        Logger.warn("smsshLTE: Bad exit code")
     end
   end
 
